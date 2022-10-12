@@ -1,5 +1,6 @@
 package com.lzc.qqclient.view;
 
+import com.lzc.qqclient.service.FileClientService;
 import com.lzc.qqclient.service.MessageClientService;
 import com.lzc.qqclient.service.UserClientService;
 import com.lzc.qqclient.utils.Utility;
@@ -17,6 +18,7 @@ public class QQView {
     private String key = "";//接口用户的键盘输入
     private UserClientService userClientService = new UserClientService();//对象是用于登陆服务/注册用户
     private MessageClientService messageClientService = new MessageClientService();//对象用户私聊/群聊
+    private FileClientService fileClientService = new FileClientService();
 
 
     public static void main(String[] args) {
@@ -77,7 +79,13 @@ public class QQView {
                                     System.out.println("私聊消息");
                                     break;
                                 case "4":
-                                    System.out.println("发送文件");
+                                    System.out.println("请输入想发送文件的用户号(在线):");
+                                    String getterIdIo = Utility.readString(100);
+                                    System.out.println("请输入想发送文件的完整路径(形式 d:\\ xxx.jpg):");
+                                    String srcFilePath = Utility.readString(200);
+                                    System.out.println("请输入想发送到对方的目录 (形式 d:\\ xxx.jpg):");
+                                    String descFilePath = Utility.readString(200);
+                                    fileClientService.sendFileToOne(userId, getterIdIo, srcFilePath, descFilePath);
                                     break;
                                 case "9":
                                     //调用一个方法，给服务器发送一个退出系统的message

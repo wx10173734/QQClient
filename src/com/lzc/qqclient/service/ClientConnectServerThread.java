@@ -3,6 +3,7 @@ package com.lzc.qqclient.service;
 import com.lzc.qqcommon.Message;
 import com.lzc.qqcommon.MessageType;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -45,11 +46,18 @@ public class ClientConnectServerThread extends Thread {
                     }
                 } else if (message.getMesType().equals(MessageType.MESSAGE_COMM_MES)) {//普通的聊天消息
                     //把服务器转发的消息，显示到控制台即可
-                    System.out.println("\n" + message.getSender() + " 对 " + message.getGetter() + " 说 " + message.getContent() +"  时间 "+message.getSendTime());
-                } else if (message.getMesType().equals(MessageType.MESSAGE_TOALL_MES)){
+                    System.out.println("\n" + message.getSender() + " 对 " + message.getGetter() + " 说 " + message.getContent() + "  时间 " + message.getSendTime());
+                } else if (message.getMesType().equals(MessageType.MESSAGE_TOALL_MES)) {
                     //显示在客户端的控制台
-                    System.out.println("\n"+message.getSender() +" 对所有人说"+message.getContent() +"时间 "+message.getSendTime());
-                }else {
+                    System.out.println("\n" + message.getSender() + " 对所有人说" + message.getContent() + "时间 " + message.getSendTime());
+                } else if (message.getMesType().equals(MessageType.MESSAGE_FilE_MES)) {//如果是文件消息
+                    System.out.println("\n" + message.getSender() +"给"+message.getGetter() +"发送文件:" + message.getSrc() +"到我的电脑目录:"+message.getDest());
+                    //取出message字节数组，通过文件输出流写出磁盘
+                    FileOutputStream fileOutputStream = new FileOutputStream(message.getDest());
+                    fileOutputStream.write(message.getFileBytes());
+                    fileOutputStream.close();
+                    System.out.println("保存文件成功");
+                } else {
                     System.out.println("是其他类型的message，暂时不处理");
                 }
             } catch (Exception e) {
