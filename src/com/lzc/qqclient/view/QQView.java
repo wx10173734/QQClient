@@ -62,7 +62,10 @@ public class QQView {
                                     //System.out.println("显示在线用户列表");
                                     break;
                                 case "2":
-                                    System.out.println("群发消息");
+                                    System.out.println("请输入想对大家说的话:");
+                                    String s = Utility.readString(100);
+                                    //调用一个方法，将消息封装成message对象，发送给服务端
+                                    messageClientService.sendMessageToAll(s, userId);
                                     break;
                                 case "3":
                                     System.out.println("请输入想聊天的用户号(在线):");

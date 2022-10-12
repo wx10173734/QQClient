@@ -46,7 +46,10 @@ public class ClientConnectServerThread extends Thread {
                 } else if (message.getMesType().equals(MessageType.MESSAGE_COMM_MES)) {//普通的聊天消息
                     //把服务器转发的消息，显示到控制台即可
                     System.out.println("\n" + message.getSender() + " 对 " + message.getGetter() + " 说 " + message.getContent() +"  时间 "+message.getSendTime());
-                } else {
+                } else if (message.getMesType().equals(MessageType.MESSAGE_TOALL_MES)){
+                    //显示在客户端的控制台
+                    System.out.println("\n"+message.getSender() +" 对所有人说"+message.getContent() +"时间 "+message.getSendTime());
+                }else {
                     System.out.println("是其他类型的message，暂时不处理");
                 }
             } catch (Exception e) {

@@ -38,4 +38,23 @@ public class MessageClientService {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * @param content  发送内容
+     * @param senderId 发送者
+     */
+    public void sendMessageToAll(String content, String senderId) {
+        Message message = new Message();
+        message.setContent(content);
+        message.setSender(senderId);
+        message.setMesType(MessageType.MESSAGE_TOALL_MES);
+        message.setSendTime(new Date().toString());
+        System.out.println(senderId + " 对大家说" + content);
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(ManageClientConnectServerThread.getClientConnectThread(senderId).getSocket().getOutputStream());
+            oos.writeObject(message);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
